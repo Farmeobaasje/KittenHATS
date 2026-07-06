@@ -6,7 +6,7 @@ Thank you for your interest in contributing to KittenHATS! This project aims to 
 
 ### Reporting Bugs
 
-1. Check the [Issues](https://github.com/sthetix/KittenHATS/issues) to see if the bug has already been reported
+1. Check the [Issues](https://github.com/Farmeobaasje/KittenHATS/issues) to see if the bug has already been reported
 2. If not, open a new issue using the bug report template
 3. Include:
    - Switch model and firmware version
