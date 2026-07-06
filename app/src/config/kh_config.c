@@ -34,6 +34,23 @@
 #include "kh_config.h"
 
 /* ------------------------------------------------------------------ */
+/* String trimming helper — strips leading and trailing whitespace    */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Trim leading whitespace in-place by returning a pointer past the
+ * leading whitespace. Does not modify the original string.
+ */
+static const char *_kh_trim_lead(const char *s)
+{
+	if (!s)
+		return NULL;
+	while (*s == ' ' || *s == '\t')
+		s++;
+	return s;
+}
+
+/* ------------------------------------------------------------------ */
 /* Hex decoder — validates fully before committing                    */
 /* ------------------------------------------------------------------ */
 
@@ -42,6 +59,7 @@
  * Returns -1 on invalid character.
  */
 static int _kh_hex_nibble(char c)
+
 {
 	if (c >= '0' && c <= '9')
 		return c - '0';
@@ -103,15 +121,23 @@ static const char *_kh_known_keys[KH_CONFIG_REQUIRED_KEYS] = {
 };
 
 /* Find index of a key in the known keys list, or -1 if unknown */
+/* Trims leading/trailing whitespace from key before comparing. */
 static int _kh_key_index(const char *key)
 {
+	if (!key)
+		return -1;
+
+	/* Trim leading whitespace */
+	const char *trimmed = _kh_trim_lead(key);
+
 	for (int i = 0; i < KH_CONFIG_REQUIRED_KEYS; i++)
 	{
-		if (strcmp(key, _kh_known_keys[i]) == 0)
+		if (strcmp(trimmed, _kh_known_keys[i]) == 0)
 			return i;
 	}
 	return -1;
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Public API                                                         */
@@ -220,27 +246,32 @@ kh_config_status_t kh_config_load(kh_pin_config_t *config)
 
 	/* ---- Step 5: Validate values ---- */
 	/* We need to iterate again to get the values */
+	/* Note: Hekate's ini_parse() does NOT trim whitespace around '='.
+	 * We use _kh_trim_lead() on values to handle " 1" vs "1" etc. */
 	LIST_FOREACH_ENTRY(ini_kv_t, kv, &sec->kvs, link)
 	{
-		if (strcmp(kv->key, KH_CONFIG_KEY_ENABLED) == 0)
+		const char *trimmed_key = _kh_trim_lead(kv->key);
+		const char *trimmed_val = _kh_trim_lead(kv->val);
+
+		if (strcmp(trimmed_key, KH_CONFIG_KEY_ENABLED) == 0)
 		{
-			if (strcmp(kv->val, KH_CONFIG_EXPECTED_ENABLED) != 0)
+			if (strcmp(trimmed_val, KH_CONFIG_EXPECTED_ENABLED) != 0)
 			{
 				status = KH_CONFIG_INVALID_ENABLED;
 				goto cleanup;
 			}
 		}
-		else if (strcmp(kv->key, KH_CONFIG_KEY_SCHEME) == 0)
+		else if (strcmp(trimmed_key, KH_CONFIG_KEY_SCHEME) == 0)
 		{
-			if (strcmp(kv->val, KH_CONFIG_EXPECTED_SCHEME) != 0)
+			if (strcmp(trimmed_val, KH_CONFIG_EXPECTED_SCHEME) != 0)
 			{
 				status = KH_CONFIG_INVALID_SCHEME;
 				goto cleanup;
 			}
 		}
-		else if (strcmp(kv->key, KH_CONFIG_KEY_LENGTH) == 0)
+		else if (strcmp(trimmed_key, KH_CONFIG_KEY_LENGTH) == 0)
 		{
-			if (strcmp(kv->val, KH_CONFIG_EXPECTED_LENGTH) != 0)
+			if (strcmp(trimmed_val, KH_CONFIG_EXPECTED_LENGTH) != 0)
 			{
 				status = KH_CONFIG_INVALID_LENGTH;
 				goto cleanup;
@@ -248,8 +279,11 @@ kh_config_status_t kh_config_load(kh_pin_config_t *config)
 		}
 	}
 
+
 	/* ---- Step 6: Hex-decode salt and hash ---- */
 	/* Parse into temporary local buffers first */
+	/* Note: Hekate's ini_parse() does NOT trim whitespace around '='.
+	 * We use _kh_trim_lead() on keys to handle "pin_salt_hex " vs "pin_salt_hex". */
 	uint8_t tmp_salt[KH_CONFIG_SALT_SIZE];
 	uint8_t tmp_digest[KH_CONFIG_DIGEST_SIZE];
 	bool salt_ok = false;
@@ -257,16 +291,19 @@ kh_config_status_t kh_config_load(kh_pin_config_t *config)
 
 	LIST_FOREACH_ENTRY(ini_kv_t, kv, &sec->kvs, link)
 	{
-		if (strcmp(kv->key, KH_CONFIG_KEY_SALT) == 0)
+		const char *trimmed_key = _kh_trim_lead(kv->key);
+		if (strcmp(trimmed_key, KH_CONFIG_KEY_SALT) == 0)
 		{
 			salt_ok = _kh_hex_decode(kv->val, tmp_salt, KH_CONFIG_SALT_SIZE);
+
 			if (!salt_ok)
 			{
 				status = KH_CONFIG_INVALID_SALT_HEX;
 				goto cleanup;
 			}
 		}
-		else if (strcmp(kv->key, KH_CONFIG_KEY_HASH) == 0)
+		else if (strcmp(trimmed_key, KH_CONFIG_KEY_HASH) == 0)
+
 		{
 			hash_ok = _kh_hex_decode(kv->val, tmp_digest, KH_CONFIG_DIGEST_SIZE);
 			if (!hash_ok)
