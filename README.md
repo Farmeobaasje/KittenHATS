@@ -51,18 +51,14 @@ KittenHATS does not require a source-code fork of Hekate. It is installed alongs
 ## 🎬 Demo
 
 <p align="center">
-  <i>🎥 On-device demo coming soon</i>
+  <img
+    src=".github/assets/kittenhats-demo.gif"
+    alt="KittenHATS on-device demo"
+    width="720"
+  >
 </p>
 
-The future demo will show:
-
-- the boot splash;
-- the child-friendly home screen;
-- the KIDS route;
-- incorrect PIN rejection;
-- correct PIN administrative access;
-- language switching;
-- KIDS and CLEAN boot routing.
+The demo shows the KittenHATS startup flow, child-friendly interface, PIN-gated administration and KIDS/CLEAN boot routing.
 
 ---
 
