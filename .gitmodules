@@ -1,0 +1,3 @@
+[submodule "app/vendor/hekate"]
+	path = app/vendor/hekate
+	url = https://github.com/sthetix/Hekatos.git

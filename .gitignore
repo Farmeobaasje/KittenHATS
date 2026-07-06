@@ -1,0 +1,50 @@
+# Build output
+app/build/
+app/dist/
+
+# Generated files
+app/build/generated/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# DevkitARM
+*.o
+*.elf
+*.map
+*.d
+
+# Build artifacts
+*.lst
+*.tmp
+*.bak
+*.log
+
+# Python
+__pycache__/
+*.pyc
+
+# Local project administration
+/docs/
+/memory-bank/
+/.clinerules/
+
+/AGENTS.md
+/MANIFEST.md
+/PRD.md
+/roadmap.md
+/SPEC.md
+/project-definition.json
+
+# Local version and release archives
+/versions/
+/kittenhats-v0.1.22-overlay/
+/kittenhats-v0.1.23-overlay/
+/kittenhats-v0.1.24-overlay/
