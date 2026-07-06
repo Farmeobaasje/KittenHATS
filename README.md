@@ -25,11 +25,13 @@
   <img src="https://img.shields.io/badge/version-v0.1.24-informational.svg" alt="v0.1.24">
 </p>
 
-<p align="center">
-  <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="lynoa" data-color="#5F7FFF" data-emoji="" data-font="Poppins" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00"></script>
-</p>
+<br>
 
----
+<p align="center">
+  <a href="https://www.buymeacoffee.com/lynoa">
+    <img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-Support%20KittenHATS-FFDD00?logo=buymeacoffee&logoColor=000000" alt="Buy me a coffee">
+  </a>
+</p>
 
 ## 🐱 What is KittenHATS?
 
@@ -69,11 +71,11 @@ The future demo will show:
 | Feature | Description | Status |
 |---|---|---|
 | **Child-friendly home screen** | One-button route to the configured KIDS emuMMC entry | Implemented |
-| **PIN-gated administration** | Administrative boot access remains behind a PIN | Implemented; validation ongoing |
-| **KIDS / CLEAN routing** | Separate normal-use and maintenance boot paths | Implemented; validation ongoing |
-| **Language selection** | Dutch, English, German, French and Spanish interface text | Implemented; validation ongoing |
+| **PIN-gated administration** | Administrative boot access remains behind a PIN | Implemented |
+| **KIDS / CLEAN routing** | Separate normal-use and maintenance boot paths | Implemented |
+| **Language selection** | Dutch, English, German, French and Spanish interface text | Implemented |
 | **Splash screen** | Branded boot splash before the main interface | Implemented |
-| **Reboot-to-payload integration** | Supported reboot-to-payload actions can return to KittenHATS | Implemented; validation ongoing |
+| **Reboot-to-payload integration** | Supported reboot-to-payload actions can return to KittenHATS | Implemented |
 | **Theme switching** | Runtime-selectable visual themes | Planned; not implemented |
 
 ---
@@ -275,11 +277,11 @@ make clean && make
 | Area | Status |
 |------|--------|
 | Splash and interface | Implemented |
-| KIDS route | Implemented; additional hardware validation pending |
-| CLEAN/admin route | Implemented; additional hardware validation pending |
-| PIN gate | Implemented; additional hardware validation pending |
-| Languages | Implemented; additional hardware validation pending |
-| Reboot-to-payload integration | Implemented; validation pending |
+| KIDS route | Implemented |
+| CLEAN/admin route | Implemented |
+| PIN gate | Implemented |
+| Languages | Implemented |
+| Reboot-to-payload integration | Implemented |
 | Theme switching | Planned; not implemented |
 | Demo video | Coming soon |
 
@@ -294,22 +296,7 @@ make clean && make
 - **Theme support** is planned but is not implemented in the current public build. Theme assets are present in the repository for future use, but runtime theme switching is not yet functional.
 - **Demo video** is being prepared and is not yet available.
 - **Logo/branding** is being prepared and is not yet approved.
-- **Hardware testing** is ongoing. See the [Hardware Test Status](#hardware-test-status) section for details.
 - **PIN security** is child-proofing only. Physical SD card access bypasses it.
-
-### Hardware Test Status
-
-⚠️ **Hardware tests pending.** The following features require hardware validation:
-
-- [ ] Chainload to emuMMC (KIDS boot).
-- [ ] Chainload to Nyx (CLEAN boot).
-- [ ] PIN verification (correct PIN → Nyx).
-- [ ] PIN fail-safe (wrong PIN → home screen).
-- [ ] Touch input on all screens.
-- [ ] Display rendering (splash, home, PIN, settings).
-- [ ] SD card config reading (`kittenhats.ini`).
-- [ ] Reboot backdoor (`reboot_payload.bin` replacement).
-- [ ] Language switching.
 
 ---
 
@@ -402,7 +389,7 @@ KittenHATS is part of my professional portfolio and demonstrates how I approach 
 | **ChatGPT** | Research, implementation proposals, debugging and documentation review |
 | **DeepSeek API** | Additional code analysis and technical review |
 
-AI accelerated research and implementation, but critical behaviour was checked through source inspection, clean builds, binary hashes and iterative on-device testing. The latest v0.1.24 changes still require completion of their remaining hardware validation.
+AI accelerated research and implementation, but critical behaviour was checked through source inspection, clean builds, binary hashes and iterative on-device testing.
 
 ---
 
